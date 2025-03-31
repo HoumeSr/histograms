@@ -1,9 +1,13 @@
-from Classes import Histogram, EBF
+from Classes import R1Z1
 
-# row = [-3, 0, 2, 3, 4, 3.5, 2.9, -2, 0.5, 3.2, 5, 4.9, 3, -1, -2.5, 3.3, -1.1]
-# histogram = Histogram(row)
-# histogram.show()
 
-row = [2, 7, 4, 1, 4, 3, 8, 8, 4, 6, 9]
-ebf = EBF(row)
-ebf.show()
+def r1z1():
+    path_data = "6/r1z1.csv"
+    Main_Class = R1Z1(path_data)
+    Main_Class.load_Histogram("images/HISTOGRAM.png")
+    Main_Class.load_EBF("images/EBF.png")
+    Main_Class.print_stat()
+
+
+if __name__ == "__main__":
+    r1z1()
