@@ -75,6 +75,15 @@ class R1Z1:
         plt.grid(True)
         plt.savefig(path)
 
+    def calculate_percentile(self, p):
+        k = (len(self.row) - 1) * p
+        return (self.row[int(k)] + self.row[int(k) + 1]) / 2 if k != int(k) else self.row[k]
+
+    def get_median(self):
+        count = len(self.row)
+        return self.row[(count - 1) // 2] if count % 2 == 0 else (
+            self.row[(count - 1) // 2] + self.row[(count - 1) // 2 + 1]) / 2
+
     def reformat(func):
         def wrapper(self, *args, **kwargs):
             stats = func(self)
@@ -84,11 +93,27 @@ class R1Z1:
 
     @reformat
     def print_stat(self):
+        count = len(self.row)
+        mean = sum(self.row) / len(self.row)
+        min_ = self.row[0]
+        max_ = self.row[-1]
+        pvariance = sum((i - mean) ** 2 for i in self.row) / count
+        asymmetry = 1 / (count * pvariance ** 1.5) * \
+            sum((i - pvariance) ** 3 for i in self.row)
+        median = self.get_median()
+        interquartile_range = self.calculate_percentile(3/4) - \
+            self.calculate_percentile(1/4)
         stats = {
-            "count": len(self.row),
-            "min": min(self.row),
-            "max": max(self.row),
-            "range": max(self.row) - min(self.row),
-            "mean": sum(self.row) / len(self.row),
+            "count": count,
+            "min": min_,
+            "max": max_,
+            "range": max_ - min_,
+            "mean": mean,
+            "pvariance": pvariance,
+            "variance": count / (count - 1) * pvariance,
+            "deviation": math.sqrt(pvariance),
+            "asymetry": asymmetry,
+            "median": median,
+            "interquartile_range": interquartile_range
         }
         return stats
