@@ -70,7 +70,7 @@ class R1Z1:
                     y=points_y[i - 1], xmin=points_x[i - 1], xmax=points_x[i], colors='black')
         plt.hlines(y=points_y[-1], xmin=points_x[-1],
                    xmax=points_x[-1] + 1, colors='black')
-        plt.scatter(points_x[1:], points_y[1:], color="black")
+        plt.scatter(points_x[1:], points_y[1:], color="black", s=10)
         plt.ylabel(f"1/{ln}")
         plt.grid(True)
         plt.savefig(path)
